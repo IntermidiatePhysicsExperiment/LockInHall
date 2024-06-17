@@ -102,7 +102,7 @@
     ]
 
     if title.level == 3 [
-      #set text(size:1em, weight: "semibold")
+      #set text(size:1em, weight: "semibold", style: "italic")
       #numbering("1. ", deepest) #title.body
     ]
     
@@ -114,6 +114,23 @@
     ]
     v(10pt)
   })
+
+  // Ref
+  show ref: it => {
+    if it.element != none and it.element.func() == heading {
+      // Override heading references.
+      link(
+        it.element.label,
+        "Section"+numbering(
+          "I-A-1-a",
+          ..counter(heading).at(it.element.location())
+        )
+      )
+    } else {
+      // Other references as usual.
+      it
+    }
+  }
   
   pad(left:10%, right: 10%)[#text(size:0.9em)[#abstract]]
   
